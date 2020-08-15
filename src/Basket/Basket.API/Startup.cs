@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using StackExchange.Redis;
 
 namespace Basket.API
@@ -34,6 +35,11 @@ namespace Basket.API
             services.AddTransient<IBasketContext, BasketContent>();
             services.AddTransient<IBasketRepository, BasketRepository>();
 
+            services.AddSwaggerGen(x =>
+            {
+                x.SwaggerDoc("v1", new OpenApiInfo { Title = "Basket API", Version = "v1" });
+            });
+
             services.AddControllers();
         }
 
@@ -52,6 +58,12 @@ namespace Basket.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.UseSwagger();
+            app.UseSwaggerUI(x =>
+            {
+                x.SwaggerEndpoint("/swagger/v1/swagger.json", "Basket API V1");
             });
         }
     }
