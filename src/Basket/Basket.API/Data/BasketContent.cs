@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Basket.API.Data.Interfaces;
+﻿using Basket.API.Data.Interfaces;
 using StackExchange.Redis;
 
 namespace Basket.API.Data

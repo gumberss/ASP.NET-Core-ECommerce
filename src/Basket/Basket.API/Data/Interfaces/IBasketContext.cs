@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using StackExchange.Redis;
+﻿using StackExchange.Redis;
 
 namespace Basket.API.Data.Interfaces
 {
-    interface IBasketContext
+    public interface IBasketContext
     {
         IDatabase Redis { get; }
     }
