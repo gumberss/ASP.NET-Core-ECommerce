@@ -1,14 +1,19 @@
 using System;
+using AutoMapper;
 using Basket.API.Data;
 using Basket.API.Data.Interfaces;
 using Basket.API.Repositories;
 using Basket.API.Repositories.Interfaces;
+using EventBusRabbitMq;
+using EventBusRabbitMq.Interfaces;
+using EventBusRabbitMq.Producer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using RabbitMQ.Client;
 using StackExchange.Redis;
 
 namespace Basket.API
@@ -39,6 +44,29 @@ namespace Basket.API
             {
                 x.SwaggerDoc("v1", new OpenApiInfo { Title = "Basket API", Version = "v1" });
             });
+
+            services.AddSingleton<IRabbitMqConnection>(sp =>
+            {
+                var factory = new ConnectionFactory
+                {
+                    HostName = Configuration["EventBus:HostName"],
+                };
+
+                var userName = Configuration["EventBus:UserName"];
+                var password = Configuration["EventBus:Password"];
+
+                if (!String.IsNullOrEmpty(userName))
+                    factory.UserName = userName;
+
+                if (!String.IsNullOrEmpty(password))
+                    factory.Password = password;
+
+                return new RabbitMqConnection(factory);
+            });
+
+            services.AddAutoMapper(typeof(Startup));
+
+            services.AddTransient<IBasketCheckoutPublisher, BasketCheckoutPublisher>();
 
             services.AddControllers();
         }
