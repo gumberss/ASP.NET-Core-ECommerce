@@ -4,7 +4,7 @@ using EventBusRabbitMq.Interfaces;
 
 namespace EventBusRabbitMq.Producer
 {
-    public class BasketCheckoutPublisher : RabbitMqProducer<BasketCheckoutEvent>
+    public class BasketCheckoutPublisher : RabbitMqProducer<BasketCheckoutEvent>, IBasketCheckoutPublisher
     {
         public BasketCheckoutPublisher(IRabbitMqConnection connection) : base(connection)
         {
