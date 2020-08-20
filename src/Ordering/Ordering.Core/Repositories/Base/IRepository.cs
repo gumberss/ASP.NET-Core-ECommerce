@@ -24,16 +24,19 @@ namespace Ordering.Core.Repositories.Base
         Task<IReadOnlyList<T>> GetAsync(
             Expression<Func<T, bool>> predicate = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-            List<Expression<Func<T, object>>> includes = null,
-            bool disableTracking = true
+            bool disableTracking = true,
+            params List<Expression<Func<T, object>>>[] includes
         );
 
         Task<T> GetByIdAsync(Guid id);
 
         Task<T> AddAsync(T entity);
 
-        Task<T> UpdateAsync(T entity);
+        T Update(T entity);
 
-        Task<T> DeleteAsync(T entity);
+        void Delete(T entity);
+
+        Task<int> SaveChangesAsync();
+
     }
 }
