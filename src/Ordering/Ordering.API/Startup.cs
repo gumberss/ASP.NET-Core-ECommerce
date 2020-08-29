@@ -11,6 +11,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Ordering.API.Extensions;
+using Ordering.API.RabbitMq;
 using Ordering.Application.Handlers;
 using Ordering.Core.Repositories;
 using Ordering.Core.Repositories.Base;
@@ -36,13 +38,13 @@ namespace Ordering.API
             services.AddDbContext<OrderContext>(c =>
             c.UseSqlServer(Configuration.GetConnectionString("OrderConnection")), ServiceLifetime.Singleton);
 
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped(typeof(IOrderRepository), typeof(OrderRepository));
+            services.AddTransient<IOrderRepository, OrderRepository>();
+
             services.AddAutoMapper(typeof(Startup));
 
             services.AddMediatR(typeof(CheckoutOrderHandler).GetTypeInfo().Assembly);
-
-            services.AddTransient<IOrderRepository, OrderRepository>();
-            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-            services.AddScoped(typeof(IOrderRepository), typeof(OrderRepository));
 
             services.AddSwaggerGen(c =>
             {
@@ -68,6 +70,8 @@ namespace Ordering.API
                 return new RabbitMqConnection(factory);
             });
 
+            services.AddSingleton<BasketCheckoutConsumer>();
+
             services.AddControllers();
         }
 
@@ -82,6 +86,8 @@ namespace Ordering.API
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseRabbitListener();
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
