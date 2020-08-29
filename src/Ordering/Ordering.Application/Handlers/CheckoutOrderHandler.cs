@@ -30,6 +30,8 @@ namespace Ordering.Application.Handlers
 
             var newOrder = await _orderRepository.AddAsync(order);
 
+            await _orderRepository.SaveChangesAsync();
+
             var orderResponse = OrderMapper.Mapper.Map<OrderResponse>(newOrder);
 
             return orderResponse;
