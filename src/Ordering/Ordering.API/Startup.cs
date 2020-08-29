@@ -1,5 +1,8 @@
+using System;
 using System.Reflection;
 using AutoMapper;
+using EventBusRabbitMq;
+using EventBusRabbitMq.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -14,6 +17,7 @@ using Ordering.Core.Repositories.Base;
 using Ordering.Infrastructure.Data;
 using Ordering.Infrastructure.Repositories;
 using Ordering.Infrastructure.Repositories.Base;
+using RabbitMQ.Client;
 
 namespace Ordering.API
 {
@@ -43,6 +47,25 @@ namespace Ordering.API
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Order API", Version = "v1" });
+            });
+
+            services.AddSingleton<IRabbitMqConnection>(sp =>
+            {
+                var factory = new ConnectionFactory
+                {
+                    HostName = Configuration["EventBus:HostName"],
+                };
+
+                var userName = Configuration["EventBus:UserName"];
+                var password = Configuration["EventBus:Password"];
+
+                if (!String.IsNullOrEmpty(userName))
+                    factory.UserName = userName;
+
+                if (!String.IsNullOrEmpty(password))
+                    factory.Password = password;
+
+                return new RabbitMqConnection(factory);
             });
 
             services.AddControllers();
