@@ -1,0 +1,17 @@
+{
+  "ReRoutes": [
+    // Catalog API
+    {
+      "DownstreamPathTemplate": "/api/v1/Catalog",
+      "DownstreamPathScheme": "http",
+      "DownstreamPathHostAndPorts": [
+        {
+          "Host": "catalogapi",
+          "port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/Catalog",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
+    }
+  ]
+}
