@@ -12,6 +12,82 @@
       ],
       "UpstreamPathTemplate": "/Catalog",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/Catalog/{id}",
+      "DownstreamPathScheme": "http",
+      "DownstreamPathHostAndPorts": [
+        {
+          "Host": "catalogapi",
+          "port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/Catalog/{id}",
+      "UpstreamHttpMethod": [ "GET", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/Catalog/GetProductByCategory/{category}",
+      "DownstreamPathScheme": "http",
+      "DownstreamPathHostAndPorts": [
+        {
+          "Host": "catalogapi",
+          "port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/Catalog/GetProductByCategory/{category}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    //BasketAPI
+    {
+      "DownstreamPathTemplate": "/api/v1/Basket/{userName}",
+      "DownstreamPathScheme": "http",
+      "DownstreamPathHostAndPorts": [
+        {
+          "Host": "basketapi",
+          "port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/Basket/{userName}",
+      "UpstreamHttpMethod": [ "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/Basket/Checkout",
+      "DownstreamPathScheme": "http",
+      "DownstreamPathHostAndPorts": [
+        {
+          "Host": "basketapi",
+          "port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/Basket/Checkout",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/Order",
+      "DownstreamPathScheme": "http",
+      "DownstreamPathHostAndPorts": [
+        {
+          "Host": "orderingapi",
+          "port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/Order",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    //OrderAPI
+    {
+      "DownstreamPathTemplate": "/api/v1/Order",
+      "DownstreamPathScheme": "http",
+      "DownstreamPathHostAndPorts": [
+        {
+          "Host": "orderingapi",
+          "port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/Order",
+      "UpstreamHttpMethod": [ "GET" ]
     }
+
+
   ]
 }
