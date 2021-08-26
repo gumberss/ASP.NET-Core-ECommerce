@@ -25,7 +25,7 @@ services:
     ports:
       - "14333:1433"
     environment:
-      SA_PASSWORD: "P@ssw0rd!1"
+      SA_PASSWORD: "******"
       ACCEPT_EULA: "Y"
     
   catalog.api:
@@ -47,8 +47,8 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - "ConnectionStrings:Redis=basketdb:6379"
       - "EventBus:HostName=rabbitmq"
-      - "EventBus:Username=guest"
-      - "EventBus:Password=guest"
+      - "EventBus:Username=******"
+      - "EventBus:Password=******"
     depends_on:
       - basketdb
       - rabbitmq
@@ -68,10 +68,10 @@ services:
       - ${HOME}/.aspnet/https:/root/.aspnet/https/
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - "ConnectionStrings:OrderConnection=Server=orderdb,1433;Database=OrderDb;User Id=sa;Password=P@ssw0rd!1"
+      - "ConnectionStrings:OrderConnection=Server=orderdb,1433;Database=OrderDb;User Id=sa;Password=******"
       - "EventBus:HostName=rabbitmq"
-      - "EventBus:Username=guest"
-      - "EventBus:Password=guest"
+      - "EventBus:Username=******"
+      - "EventBus:Password=******"
     ports:
       - "8002:80"
 
